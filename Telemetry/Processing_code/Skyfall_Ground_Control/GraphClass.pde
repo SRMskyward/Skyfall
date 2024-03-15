@@ -203,14 +203,14 @@
           
         //yPos+Height-(abs(yMin)/(yMax-yMin))*Height
         for (int k = 0; k<x1.length-1; k++){
-      strokeWeight(2);fill(255);
+          strokeWeight(2);fill(255);
       
-      line(x1[k]*(Width-70)/x1.length+xPos+50,
+          line(x1[k]*(Width-70)/x1.length+xPos+50,
                                           -AltitudeY[k]*(0.85*Height-20)/(yMax-yMin)+yPos+Height-(abs(yMin)/(yMax-yMin))*Height,
                                            x1[k+1]*(Width-70)/x1.length+xPos+50,
                                            -AltitudeY[k+1]*(0.85*Height-20)/(yMax-yMin)+yPos+Height-(abs(yMin)/(yMax-yMin))*Height);
 
-      AltitudeY[k]=AltitudeY[k+1];
+          //AltitudeY[k]=AltitudeY[k+1];
       //AltitudeY[k] = 5;
       //AltitudeY[0] = -k;
       

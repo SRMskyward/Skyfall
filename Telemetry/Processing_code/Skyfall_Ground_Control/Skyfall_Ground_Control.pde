@@ -40,7 +40,7 @@ int y = 200;
 int SizeX = 1920;
 int SizeY = 1080;
 int scale = 10;
-int add = 100;
+int add = 0;
 int speed = 100;
 int millisecs;
 int seconds;
@@ -66,12 +66,12 @@ Graph OrientationX = new Graph(int(SizeX*0.1),0, int(SizeX*0.2), int(SizeY*0.24)
 Graph OrientationY = new Graph(int(SizeX*0.3),0, int(SizeX*0.2), int(SizeY*0.24), color (20, 20, 200));
 Graph OrientationZ = new Graph(int(SizeX*0.5),0, int(SizeX*0.2), int(SizeY*0.24), color (20, 20, 200));
 
-float [] x1 = new float[100];
-float [] AltitudeY = new float [100];
-float [][] RotationY = new float [3][100];
-float [] OrientationxY = new float [100];
-float [] OrientationyY = new float [100];
-float [] OrientationzY = new float [100];
+float [] x1 = new float[1];
+float [] AltitudeY = new float [1];
+float [][] RotationY = new float [3][1];
+float [] OrientationxY = new float [1];
+float [] OrientationyY = new float [1];
+float [] OrientationzY = new float [1];
 
 float[] barChartValues = new float[6];
 float[][] AltitudeValues = new float[1][1000];
@@ -102,13 +102,7 @@ void setup() {
   
   
     
-  for (int i=0; i<x1.length; i++)
-      {
-        x1[i] = i;
-        AltitudeY[i] = 10;
-        //AltitudeY[i] = random(-10,10);
-        
-      }
+  
   
   // set line graph colors
   graphColors[0] = color(131, 255, 20);
@@ -178,19 +172,27 @@ void draw() {
         myString = new String(inBuffer);
         }
       else {
-     AltitudeY[AltitudeY.length-1] = AltitudeY[AltitudeY.length-1]+random(-10,10);
+     //AltitudeY[AltitudeY.length-1] = AltitudeY[AltitudeY.length-1]+random(-10,10);
+     x1 = append(x1, add);
+     AltitudeY =append(AltitudeY, AltitudeY[AltitudeY.length-1]+random(-10,10));
     //for (int i = 0; i < RotationY.length; i++){
     for(int k=0; k<RotationY.length; k++){
-    RotationY[k][RotationY[k].length-1] = RotationY[k][RotationY[k].length-1]+random(-1,1);
+    RotationY[k] = append(RotationY[k],RotationY[k][RotationY[k].length-1]+random(-1,1));
     //printArray(RotationY[k]);
     }
-     //   }
+    
+      //  }
 
-    OrientationxY[OrientationxY.length-1] = OrientationxY[OrientationxY.length-1]+random(-1,1);
-    OrientationyY[OrientationyY.length-1] = OrientationyY[OrientationyY.length-1]+random(-1,1);
-    OrientationzY[OrientationyY.length-1] = OrientationzY[OrientationzY.length-1]+random(-1,1);
+    OrientationxY = append(OrientationxY, OrientationxY[OrientationxY.length-1]+random(-1,1));
+    OrientationyY = append(OrientationyY, OrientationyY[OrientationyY.length-1]+random(-1,1));
+    OrientationzY = append(OrientationzY, OrientationzY[OrientationzY.length-1]+random(-1,1));
         myString = mockupSerialFunction();
+        
+        add ++;
            }
+           
+           
+           
      if(altitudeMax < int(max(AltitudeY)))
      {altitudeMax = int(max(AltitudeY));
    }

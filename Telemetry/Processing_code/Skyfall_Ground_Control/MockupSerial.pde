@@ -34,6 +34,6 @@ String mockupSerialFunction() {
     if (i < 7)
       r += '\r';
   }
-  delay(10);
+  delay(100);
   return r;
 }
