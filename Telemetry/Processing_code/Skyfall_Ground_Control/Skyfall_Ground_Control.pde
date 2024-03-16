@@ -102,7 +102,7 @@ void setup() {
   surface.setResizable(true);//define as non-resizable
   surface.setLocation(0,0);//define the loading location of the window
   
-  background(0);
+  background(color(34, 40, 49));
   font = createFont("CircularStd-Book.otf",30);
   font1 = createFont("CircularStd-Book.otf",15);
   
@@ -132,8 +132,8 @@ void setup() {
   // gui
   
   launchButton = cp5.addButton("Launch")
-      .setPosition(0.785*width,0.33*height)
-      .setSize(int(0.22*width-5),int(0.1*height))
+      .setPosition(0.785*width+5,0.33*height+5)
+      .setSize(int(0.215*width-10),int(0.1*height))
       .setColorBackground(color(179,192,164))
       .setColorForeground(color(209,222,194))
       .setColorActive(color(50,50,50))
@@ -172,7 +172,7 @@ int i = 0; // loop variable
 
 void draw() {
   
-    background(0);
+    background(color(34, 40, 49));
   /* Read serial and update values */
     if (mockupSerial || serialPort.available() > 0) {
       String myString = "";
@@ -265,7 +265,7 @@ void draw() {
     setChartSettings();
   
   canvas3D.beginDraw();
-  canvas3D.background(0);
+  canvas3D.background(color(49, 54, 63));
   //canvas3D.setSize(int(width*0.25), int(height*0.6));
   canvas3D.translate(width*0.25, height*0.6);
   //canvas3D.rotateX(xangle/(PI/180)/1000);
@@ -277,7 +277,9 @@ void draw() {
   canvas3D.shape(Skyfall);
   canvas3D.endDraw();
   pushMatrix();
-  image(canvas3D, width*0.2, height*0.24);
+  rectMode(CORNER);stroke(150);
+  rect(width*0.25+5, height*0.33+5, width*0.535-10, height*0.66-10,5);
+  image(canvas3D, width*0.25+5, height*0.33+5, width*0.535-10, height*0.66-10);
   
   
   popMatrix();
@@ -405,8 +407,8 @@ void draw() {
      
     }
      else{
-     launchButton.setPosition(0.785*width,0.33*height)
-                .setSize(int(0.22*width-5),int(0.1*height))
+     launchButton.setPosition(0.785*width+5,0.33*height+5)
+                .setSize(int(0.215*width-10),int(0.1*height))
                 .listenerSize();
      }
      
@@ -436,7 +438,7 @@ void setChartSettings() {
 
 
           
-           println(max(OrientationxY));
+           println(min(OrientationyY));
           
 
 
@@ -447,8 +449,8 @@ void setChartSettings() {
   Altitude.Title="Altitude";  
   Altitude.yDiv = 10;
   Altitude.xDiv=6;  
-  Altitude.yMin=int(1*min(AltitudeY)); 
-  Altitude.yMax=int(1*max(AltitudeY));
+  Altitude.yMin=int(1*min(AltitudeY)-1); 
+  Altitude.yMax=int(1*max(AltitudeY)+1);
   Altitude.xPos=0;
   Altitude.yPos=int(height*0.33);
   Altitude.Width=int(width*0.25);
@@ -480,8 +482,8 @@ void setChartSettings() {
   OrientationX.Title="Orientation";  
   OrientationX.yDiv = 10;
   OrientationX.xDiv=6;  
-  OrientationX.yMin=int(1*min(OrientationxY)); 
-  OrientationX.yMax=int(1*max(OrientationxY));
+  OrientationX.yMin=int(1*min(OrientationxY)-1); 
+  OrientationX.yMax=int(1*max(OrientationxY)+1);
   OrientationX.xPos=int(width*0.125);
   OrientationX.yPos=0;
   OrientationX.Width=int(width*0.22);
@@ -492,8 +494,8 @@ void setChartSettings() {
   OrientationY.Title="Orientation";  
   OrientationY.yDiv = 10;
   OrientationY.xDiv=6;  
-  OrientationY.yMin=int( 1*min(OrientationyY)); 
-  OrientationY.yMax=int(1*max(OrientationyY)); 
+  OrientationY.yMin=int( 1*min(OrientationyY)-1); 
+  OrientationY.yMax=int(1*max(OrientationyY)+1); 
   OrientationY.xPos=int(width*0.345);
   OrientationY.yPos=0;
   OrientationY.Width=int(width*0.22);
@@ -504,8 +506,8 @@ void setChartSettings() {
   OrientationZ.Title="Orientation";  
   OrientationZ.yDiv = 10;
   OrientationZ.xDiv=6;  
-  OrientationZ.yMin=int(1*min(OrientationzY)); 
-  OrientationZ.yMax=int(1*max(OrientationzY));
+  OrientationZ.yMin=int(1*min(OrientationzY)-1); 
+  OrientationZ.yMax=int(1*max(OrientationzY)+1);
   OrientationZ.xPos=int(width*0.565);
   OrientationZ.yPos=0;
   OrientationZ.Width=int(width*0.22);
@@ -555,15 +557,18 @@ void Launch(){
       }
       else{
        securityCode = cp5.addTextfield("Security Code")
-      .setPosition(0.785*width,0.43*height)
-      .setSize(int(0.15*width),int(0.05*height))
-      //.setColorBackground( color( 255,255,255 ) )
+      .setPosition(0.785*width+5,0.43*height+6)
+      .setSize(int(0.15*width-5),int(0.05*height))
+      .setColorBackground( color(49, 54, 63 ))
+      .setColorForeground( color(79, 84, 93 )  )
+      .setColorCursor(color(118, 171, 174))
+      .setPasswordMode(true)
       .setFont(font1);
-      //.setLabel("");
-     Pray = cp5.addButton("Pray")
-      .setPosition(0.935*width,0.43*height)
-      .setSize(int(0.065*width-5),int(0.05*height))
-      .setColorBackground( color( 80,81,104 ) )
+       
+       Pray = cp5.addButton("Pray")
+      .setPosition(0.935*width+1,0.43*height+6)
+      .setSize(int(0.065*width-6),int(0.05*height))
+      .setColorBackground( color(49, 54, 63 ) )
       .setFont(font1);
       launchButton.setLabel("Cancel").setColorBackground(color(220,196,142)).setColorForeground(color(250,226,172));
       clicked=true;

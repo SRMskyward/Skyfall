@@ -60,12 +60,11 @@
    /*  =========================================================================================
         Main axes Lines, Graph Labels, Graph Background
        ==========================================================================================  */
-        fill(0); color(0);stroke(0);strokeWeight(0);
-        fill(0);
+        fill(color(34, 40, 49)); color(color(34, 40, 49));stroke(color(34, 40, 49));strokeWeight(0);
         rectMode(CENTER);
         rect(xPos+Width/2,yPos+Height/2,Width,Height,10);    
         fill(BackgroundColor); color(255);stroke(255);strokeWeight(1);
-        fill(35);
+        fill(color(49, 54, 63));
         rectMode(CENTER);
         rect(xPos+Width/2,yPos+Height/2,Width-10,Height-10,10);            // outline
         textAlign(CENTER);textSize(14);
@@ -126,6 +125,14 @@
                  float(x)/xDiv*xpos+xPos+50,yPos+0.85*Height+15);   // x-axis Labels
           }
           
+           for(int x=0; x<=xDiv; x++){
+            stroke(color(100,100,100,50));strokeWeight(0.5);
+            float xpos = (Width-70);
+            line(float(x)/xDiv*xpos+xPos+50,yPos+0.85*Height,       //  x-axis Sub devisions lines   
+                 float(x)/xDiv*xpos+xPos+50,yPos+20);  
+                 
+           }
+          
           
            /*  =========================================================================================
                  left y-axis
@@ -136,6 +143,8 @@
             float ypos = 0.85*Height-20;
             line(xPos+50,float(y)/yDiv*ypos+yPos+20,                // ...
                   xPos+46,float(y)/yDiv*ypos+yPos+20);              // y-axis lines 
+            
+            
             
             textAlign(RIGHT);fill(255);
             
@@ -156,7 +165,8 @@
             
               line(xPos+Width+3,float(y)/yDiv*Height+yPos,             // ...
                    xPos+Width+7,float(y)/yDiv*Height+yPos);            // Right Y axis sub devisions
-                   
+              
+    
               textAlign(LEFT); 
             
               String yAxisRight=str(yMinRight+float(y)/                // ...
@@ -171,7 +181,11 @@
             
           
           }
-          
+           for(int y=0; y<=yDiv; y++){
+             float ypos = 0.85*Height-20;
+             stroke(color(100,100,100,50));strokeWeight(0.5);
+             line(xPos+50,float(y)/yDiv*ypos+yPos+20,                // ...
+                  xPos+Width-20,float(y)/yDiv*ypos+yPos+20);}
  
       }
 
@@ -183,8 +197,10 @@
           
         
         for (int k = 0; k<x1.length-1; k++){
-          strokeWeight(2);fill(255);
-      
+          
+          
+          stroke(color(255,255,255,255));strokeWeight(1.5);   
+          
           line(x1[k]*(Width-70)/x1.length+xPos+50,
                                           (0.85*Height-20)*(-(AltitudeY[k]-abs(yMax)))/(yMax-yMin)+yPos+20,
                                            x1[k+1]*(Width-70)/x1.length+xPos+50,
@@ -200,6 +216,7 @@
        void Rotation(float[] x1 ,float[] RotationY) {
 
         for (int k = 0; k<x1.length-1; k++){
+          
       strokeWeight(2);stroke(GraphColor);noFill();smooth();
       
       line(x1[k]*(Width-70)/x1.length+xPos+50,
@@ -214,7 +231,7 @@
       
       void OrientationX(float[] x1 ,float[]OrientationxY ) {
           
-      strokeWeight(2);fill(255);
+     stroke(color(255,255,255,255));strokeWeight(2);  
      
      for (int k = 0; k<x1.length-1; k++){
       line(x1[k]*(Width-70)/x1.length+xPos+50,
@@ -231,7 +248,7 @@
         void OrientationY(float[] x1 ,float[] OrientationyY) {
  
         for (int k = 0; k<x1.length-1; k++){
-      strokeWeight(2);fill(255);
+      stroke(color(255,255,255,255));strokeWeight(2);  
       
       line(x1[k]*(Width-70)/x1.length+xPos+50,
                                           (0.85*Height-20)*(-(OrientationyY[k]-abs(yMax)))/(yMax-yMin)+yPos+20,
@@ -248,7 +265,7 @@
         
         //yPos+Height-(abs(yMin)/(yMax-yMin))*Height
         for (int k = 0; k<x1.length-1; k++){
-      strokeWeight(2);fill(255);
+      stroke(color(255,255,255,255));strokeWeight(2);  
       
       line(x1[k]*(Width-70)/x1.length+xPos+50,
                                           (0.85*Height-20)*(-(OrientationzY[k]-abs(yMax)))/(yMax-yMin)+yPos+20,
