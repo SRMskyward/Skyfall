@@ -92,9 +92,9 @@
            stroke(color(255,0,0));
 
            line(xPos+50,                                       // zero line 
-                         yPos+Height-(abs(yMin)/(yMax-yMin))*Height,   // 
+                         (0.85*Height-20)*(abs(yMax)/(yMax-yMin))+yPos+20,   // 
                          xPos+Width-20,
-                         yPos+Height-(abs(yMin)/(yMax-yMin))*Height
+                         (0.85*Height-20)*(abs(yMax)/(yMax-yMin))+yPos+20
                          );
           
           
@@ -186,9 +186,9 @@
           strokeWeight(2);fill(255);
       
           line(x1[k]*(Width-70)/x1.length+xPos+50,
-                                          -AltitudeY[k]*(0.85*Height-20)/(yMax-yMin)+yPos+0.85*Height,
+                                          (0.85*Height-20)*(-(AltitudeY[k]-abs(yMax)))/(yMax-yMin)+yPos+20,
                                            x1[k+1]*(Width-70)/x1.length+xPos+50,
-                                           -AltitudeY[k+1]*(0.85*Height-20)/(yMax-yMin)+yPos+0.85*Height);
+                                           (0.85*Height-20)*(-(AltitudeY[k+1]-abs(yMax)))/(yMax-yMin)+yPos+20);
 
       
     }
@@ -203,9 +203,9 @@
       strokeWeight(2);stroke(GraphColor);noFill();smooth();
       
       line(x1[k]*(Width-70)/x1.length+xPos+50,
-                                          -RotationY[k]*(0.85*Height-20)/(yMax-yMin)+yPos+Height-(abs(yMin)/(yMax-yMin))*Height,
+                                          (0.85*Height-20)*(-(RotationY[k]-abs(yMax)))/(yMax-yMin)+yPos+20,
                                            x1[k+1]*(Width-70)/x1.length+xPos+50,
-                                           -RotationY[k+1]*(0.85*Height-20)/(yMax-yMin)+yPos+Height-(abs(yMin)/(yMax-yMin))*Height);
+                                           (0.85*Height-20)*(-(RotationY[k+1]-abs(yMax)))/(yMax-yMin)+yPos+20);
 
 
                              
@@ -218,9 +218,9 @@
      
      for (int k = 0; k<x1.length-1; k++){
       line(x1[k]*(Width-70)/x1.length+xPos+50,
-                                          -OrientationxY[k]*(0.85*Height-20)/(yMax-yMin)+yPos+Height-(abs(yMin)/(yMax-yMin))*Height+yPos+20,
+                                            (0.85*Height-20)*(-(OrientationxY[k]-abs(yMax)))/(yMax-yMin)+yPos+20,
                                            x1[k+1]*(Width-70)/x1.length+xPos+50,
-                                           -OrientationxY[k+1]*(0.85*Height-20)/(yMax-yMin)+yPos+Height-(abs(yMin)/(yMax-yMin))*Height+yPos+20);
+                                           (0.85*Height-20)*(-(OrientationxY[k+1]-abs(yMax)))/(yMax-yMin)+yPos+20);
 
 
       }
@@ -234,9 +234,9 @@
       strokeWeight(2);fill(255);
       
       line(x1[k]*(Width-70)/x1.length+xPos+50,
-                                          -OrientationyY[k]*(0.85*Height-20)/(yMax-yMin)+yPos+Height-(abs(yMin)/(yMax-yMin))*Height+yPos+20,
+                                          (0.85*Height-20)*(-(OrientationyY[k]-abs(yMax)))/(yMax-yMin)+yPos+20,
                                            x1[k+1]*(Width-70)/x1.length+xPos+50,
-                                           -OrientationyY[k+1]*(0.85*Height-20)/(yMax-yMin)+yPos+Height-(abs(yMin)/(yMax-yMin))*Height+yPos+20);
+                                           (0.85*Height-20)*(-(OrientationyY[k+1]-abs(yMax)))/(yMax-yMin)+yPos+20);
 
             
       }}
@@ -251,9 +251,9 @@
       strokeWeight(2);fill(255);
       
       line(x1[k]*(Width-70)/x1.length+xPos+50,
-                                          -OrientationzY[k]*(0.85*Height-20)/(yMax-yMin)+yPos+Height-(abs(yMin)/(yMax-yMin))*Height+yPos+20,
+                                          (0.85*Height-20)*(-(OrientationzY[k]-abs(yMax)))/(yMax-yMin)+yPos+20,
                                            x1[k+1]*(Width-70)/x1.length+xPos+50,
-                                           -OrientationzY[k+1]*(0.85*Height-20)/(yMax-yMin)+yPos+Height-(abs(yMin)/(yMax-yMin))*Height+yPos+20);
+                                           (0.85*Height-20)*(-(OrientationzY[k+1]-abs(yMax)))/(yMax-yMin)+yPos+20);
 
                    
       }

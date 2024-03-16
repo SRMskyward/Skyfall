@@ -337,12 +337,11 @@ void draw() {
 
   // draw the line graphs
   
-  //Graph.Altitude(0,0,100,100,color (20, 20, 200));
+  
  
   Altitude.DrawAxis();
   for (int i=0;i<AltitudeValues.length; i++) {
-    //Altitude.yMin=int(min(AltitudeY)); 
-    //Altitude.yMax=int(max(AltitudeY)); 
+     
     Altitude.GraphColor = graphColors[i];
     if (int(getPlotterConfigString("lgVisible"+(i+1))) == 1)
       Altitude.Altitude(x1, AltitudeY);
@@ -430,31 +429,26 @@ void draw() {
 void setChartSettings() {
   
  
-          Altitude.yMin=int(1.5*min(AltitudeY)); 
-           Altitude.yMax=int(1.5*max(AltitudeY));
+
           
           
 
 
 
-          OrientationX.yMin=int(1*min(OrientationxY)); 
-           OrientationX.yMax=int(1*max(OrientationxY));
-     println(max(OrientationxY));
+          
+           println(max(OrientationxY));
           
 
-          OrientationY.yMin=int(2*min(OrientationyY)); 
-           OrientationY.yMax=int(2*max(OrientationyY));
 
-          OrientationZ.yMin=int(2*min(OrientationzY)); 
-           OrientationZ.yMax=int(2*max(OrientationzY));
+
           
   Altitude.xLabel=" Time ";
   Altitude.yLabel="Altitude";
   Altitude.Title="Altitude";  
   Altitude.yDiv = 10;
   Altitude.xDiv=6;  
-  Altitude.xMax=0; 
-  Altitude.xMin=-100; 
+  Altitude.yMin=int(1*min(AltitudeY)); 
+  Altitude.yMax=int(1*max(AltitudeY));
   Altitude.xPos=0;
   Altitude.yPos=int(height*0.33);
   Altitude.Width=int(width*0.25);
@@ -486,8 +480,8 @@ void setChartSettings() {
   OrientationX.Title="Orientation";  
   OrientationX.yDiv = 10;
   OrientationX.xDiv=6;  
-  OrientationX.xMax=100; 
-  OrientationX.xMin=0; 
+  OrientationX.yMin=int(1*min(OrientationxY)); 
+  OrientationX.yMax=int(1*max(OrientationxY));
   OrientationX.xPos=int(width*0.125);
   OrientationX.yPos=0;
   OrientationX.Width=int(width*0.22);
@@ -498,8 +492,8 @@ void setChartSettings() {
   OrientationY.Title="Orientation";  
   OrientationY.yDiv = 10;
   OrientationY.xDiv=6;  
-  OrientationY.xMax=0; 
-  OrientationY.xMin=-100; 
+  OrientationY.yMin=int( 1*min(OrientationyY)); 
+  OrientationY.yMax=int(1*max(OrientationyY)); 
   OrientationY.xPos=int(width*0.345);
   OrientationY.yPos=0;
   OrientationY.Width=int(width*0.22);
@@ -510,8 +504,8 @@ void setChartSettings() {
   OrientationZ.Title="Orientation";  
   OrientationZ.yDiv = 10;
   OrientationZ.xDiv=6;  
-  OrientationZ.xMax=0; 
-  OrientationZ.xMin=-100; 
+  OrientationZ.yMin=int(1*min(OrientationzY)); 
+  OrientationZ.yMax=int(1*max(OrientationzY));
   OrientationZ.xPos=int(width*0.565);
   OrientationZ.yPos=0;
   OrientationZ.Width=int(width*0.22);
