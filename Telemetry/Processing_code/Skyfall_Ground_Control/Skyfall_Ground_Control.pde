@@ -33,6 +33,9 @@ float angle = 0;
 PShape Skyfall;
 PFont font,font1;
 PGraphics canvas3D;
+Table table;
+
+
 
 
 int x = 100;
@@ -86,20 +89,30 @@ String code = "1402";
 
 void settings() {
   size(SizeX, SizeY, P3D);//define the size of the window
-
+  
+  
 }
 
 void setup() {
   
+  
   cp5 = new ControlP5(this);
+  //surface.setIcon(loadImage("icon-48.png"));
   surface.setTitle("Skyfall Ground Control");//create the title of the window
   surface.setResizable(true);//define as non-resizable
   surface.setLocation(0,0);//define the loading location of the window
+  
   background(0);
   font = createFont("CircularStd-Book.otf",30);
   font1 = createFont("CircularStd-Book.otf",15);
   
+  table = new Table();
   
+  table.addColumn("Time");
+  table.addColumn("Altitude");
+  table.addColumn("OrientationX");
+  table.addColumn("OrientationY");
+  table.addColumn("OrientationZ");
   
     
   
@@ -172,20 +185,28 @@ void draw() {
         myString = new String(inBuffer);
         }
       else {
-     //AltitudeY[AltitudeY.length-1] = AltitudeY[AltitudeY.length-1]+random(-10,10);
-     x1 = append(x1, add);
-     AltitudeY =append(AltitudeY, AltitudeY[AltitudeY.length-1]+random(-10,10));
-    //for (int i = 0; i < RotationY.length; i++){
-    for(int k=0; k<RotationY.length; k++){
-    RotationY[k] = append(RotationY[k],RotationY[k][RotationY[k].length-1]+random(-1,1));
-    //printArray(RotationY[k]);
-    }
+        x1 = append(x1, add);
+        if(max(AltitudeY)<1000 ){
+        AltitudeY =append(AltitudeY, AltitudeY[AltitudeY.length-1]+random(0,10));
+        }
+        else{
+          AltitudeY =append(AltitudeY, AltitudeY[AltitudeY.length-1]+random(-0,0));
+        }
     
-      //  }
-
-    OrientationxY = append(OrientationxY, OrientationxY[OrientationxY.length-1]+random(-1,1));
-    OrientationyY = append(OrientationyY, OrientationyY[OrientationyY.length-1]+random(-1,1));
-    OrientationzY = append(OrientationzY, OrientationzY[OrientationzY.length-1]+random(-1,1));
+        for(int k=0; k<RotationY.length; k++){
+        RotationY[k] = append(RotationY[k],RotationY[k][RotationY[k].length-1]+random(-1,1));
+        //printArray(RotationY[k]);
+      }
+        if(max(OrientationxY)<100 ){
+        OrientationxY =append(OrientationxY, OrientationxY[OrientationxY.length-1]+random(0,10));
+        }
+        else{
+          OrientationxY =append(OrientationxY, -10);
+        }
+      
+        //OrientationxY = append(OrientationxY, OrientationxY[OrientationxY.length-1]+random(1,1));
+        OrientationyY = append(OrientationyY, OrientationyY[OrientationyY.length-1]+random(-1,1));
+        OrientationzY = append(OrientationzY, OrientationzY[OrientationzY.length-1]+random(-1,1));
         myString = mockupSerialFunction();
         
         add ++;
@@ -400,63 +421,33 @@ void draw() {
     noLoop();
     
     }
-
+  table.clearRows();
+  addRowsToTable(table,x1.length,x1,AltitudeY,OrientationxY,OrientationyY,OrientationzY);
+  saveTable(table, "data/FlightData.csv");
    
 }
 // called each time the chart settings are changed by the user 
 void setChartSettings() {
   
-  if (int(max(AltitudeY))<0){
-           Altitude.yMin=int((min(AltitudeY))); 
-           Altitude.yMax=int(0);
-          }
-          else if (int(min(AltitudeY))>0){
-           Altitude.yMin= 0; 
-           Altitude.yMax=int((max(AltitudeY)));
-          }
-          else{
+ 
           Altitude.yMin=int(1.5*min(AltitudeY)); 
            Altitude.yMax=int(1.5*max(AltitudeY));
-          }
           
- if (int(max(OrientationxY))<0){
-           OrientationX.yMin=int((min(OrientationxY))); 
-           OrientationX.yMax=int(0);
-          }
-          else if (int(min(OrientationxY))>0){
-           OrientationX.yMin= 0; 
-           OrientationX.yMax=int((max(OrientationxY)));
-          }
-          else{
-          OrientationX.yMin=int(1.5*min(OrientationxY)); 
-           OrientationX.yMax=int(1.5*max(OrientationxY));
-          }
           
-if (int(max(OrientationyY))<0){
-           OrientationY.yMin=int((min(OrientationyY))); 
-           OrientationY.yMax=int(0);
-          }
-          else if (int(min(OrientationyY))>0){
-           OrientationY.yMin= 0; 
-           OrientationY.yMax=int((max(OrientationyY)));
-          }
-          else{
-          OrientationY.yMin=int(1.5*min(OrientationyY)); 
-           OrientationY.yMax=int(1.5*max(OrientationyY));
-          }
+
+
+
+          OrientationX.yMin=int(1*min(OrientationxY)); 
+           OrientationX.yMax=int(1*max(OrientationxY));
+     println(max(OrientationxY));
           
-if (int(max(OrientationzY))<0){
-           OrientationZ.yMin=int((min(OrientationzY))); 
-           OrientationZ.yMax=int(0);
-          }
-          else if (int(min(OrientationzY))>0){
-           OrientationZ.yMin= 0; 
-           OrientationZ.yMax=int((max(OrientationzY)));
-          }
-          else{
-          OrientationZ.yMin=int(1.5*min(OrientationzY)); 
-           OrientationZ.yMax=int(1.5*max(OrientationzY));
-          }
+
+          OrientationY.yMin=int(2*min(OrientationyY)); 
+           OrientationY.yMax=int(2*max(OrientationyY));
+
+          OrientationZ.yMin=int(2*min(OrientationzY)); 
+           OrientationZ.yMax=int(2*max(OrientationzY));
+          
   Altitude.xLabel=" Time ";
   Altitude.yLabel="Altitude";
   Altitude.Title="Altitude";  

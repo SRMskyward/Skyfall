@@ -87,37 +87,17 @@
           line(xPos+50,yPos+0.85*Height,xPos+50,yPos+20);                        // y-axis line 
           line(xPos+50,yPos+0.85*Height,xPos+Width-20,yPos+0.85*Height);           // x-axis line 
           
-           stroke(255);
-           if (int(max(AltitudeY))<0){
-             line(xPos+50,                                       // zero line 
-                         yPos+20,   // 
-                         xPos+Width-20,
-                         yPos+20
-                         );
-          }
-          else if (int(min(AltitudeY))>0){
-             line(xPos+50,                                       // zero line 
-                         yPos+0.85*Height,   // 
-                         xPos+Width-20,
-                         yPos+0.85*Height
-                         );
-          }
-          else{
+           
+           
+           stroke(color(255,0,0));
+
            line(xPos+50,                                       // zero line 
                          yPos+Height-(abs(yMin)/(yMax-yMin))*Height,   // 
                          xPos+Width-20,
                          yPos+Height-(abs(yMin)/(yMax-yMin))*Height
                          );
-          }
-          if(yMin<0){
-                    line(xPos+50,                                       // zero line 
-                         yPos+Height-(abs(yMin)/(yMax-yMin))*Height,   // 
-                         xPos+Width-20,
-                         yPos+Height-(abs(yMin)/(yMax-yMin))*Height
-                         );
           
-                    
-          }
+          
           
           if(RightAxis){                                       // Right-axis line   
               stroke(0);
@@ -199,72 +179,35 @@
        Streight line graph 
        ==========================================================================================  */
        
-           void Altitude(float[] x1 ,float[] AltitudeY) {
+        void Altitude(float[] x1 ,float[] AltitudeY) {
           
-        //yPos+Height-(abs(yMin)/(yMax-yMin))*Height
+        
         for (int k = 0; k<x1.length-1; k++){
           strokeWeight(2);fill(255);
       
           line(x1[k]*(Width-70)/x1.length+xPos+50,
-                                          -AltitudeY[k]*(0.85*Height-20)/(yMax-yMin)+yPos+Height-(abs(yMin)/(yMax-yMin))*Height,
+                                          -AltitudeY[k]*(0.85*Height-20)/(yMax-yMin)+yPos+0.85*Height,
                                            x1[k+1]*(Width-70)/x1.length+xPos+50,
-                                           -AltitudeY[k+1]*(0.85*Height-20)/(yMax-yMin)+yPos+Height-(abs(yMin)/(yMax-yMin))*Height);
+                                           -AltitudeY[k+1]*(0.85*Height-20)/(yMax-yMin)+yPos+0.85*Height);
 
-          //AltitudeY[k]=AltitudeY[k+1];
-      //AltitudeY[k] = 5;
-      //AltitudeY[0] = -k;
       
     }
     
-        /*printArray(y);
-         for (int i=0; i<(x.length-1); i++){
-                    strokeWeight(2);stroke(GraphColor);noFill();smooth();
-           line((x[i]-x[0])/(x[x.length-1]-x[0]+200),
-                                            yPos+Height-(y[i]/(yMax-yMin)*Height)+(yMin)/(yMax-yMin)*Height,
-                                            (x[i]-x[0])/(x[x.length-1]-x[0])+200,
-                                            yPos+Height-(y[i+1]/(yMax-yMin)*Height)+(yMin)/(yMax-yMin)*Height);
-                                           
-                             
-      }*/
+
       }
      
      
        void Rotation(float[] x1 ,float[] RotationY) {
-      /*if (int(max(RotationY))<0){
-           Rotation.yMin=int((min(RotationY))); 
-           Rotation.yMax=int(0);
-          }
-          else if (int(min(RotationY))>0){
-           Rotation.yMin= 0; 
-           Rotation.yMax=int((max(RotationY)));
-          }
-          else{
-          Rotation.yMin=int(1.5*min(RotationY)); 
-           Rotation.yMax=int(1.5*max(RotationY));
-          }*/
-        //yPos+Height-(abs(yMin)/(yMax-yMin))*Height
+
         for (int k = 0; k<x1.length-1; k++){
       strokeWeight(2);stroke(GraphColor);noFill();smooth();
-      /*if (int(max(RotationY))<0){
-           Rotation.yMin=int((min(RotationY))); 
-           Rotation.yMax=int(0);
-          }
-          else if (int(min(RotationY))>0){
-           Rotation.yMin= 0; 
-           Rotation.yMax=int((max(RotationY)));
-          }
-          else{
-          Rotation.yMin=int(1.5*min(RotationY)); 
-           Rotation.yMax=int(1.5*max(RotationY));
-          }*/
+      
       line(x1[k]*(Width-70)/x1.length+xPos+50,
                                           -RotationY[k]*(0.85*Height-20)/(yMax-yMin)+yPos+Height-(abs(yMin)/(yMax-yMin))*Height,
                                            x1[k+1]*(Width-70)/x1.length+xPos+50,
                                            -RotationY[k+1]*(0.85*Height-20)/(yMax-yMin)+yPos+Height-(abs(yMin)/(yMax-yMin))*Height);
 
-      RotationY[k]=RotationY[k+1];
-      //y1[k] = 5;
-      //y1[0] = -k;
+
                              
       }}
       
@@ -275,13 +218,11 @@
      
      for (int k = 0; k<x1.length-1; k++){
       line(x1[k]*(Width-70)/x1.length+xPos+50,
-                                          -OrientationxY[k]*(0.85*Height-20)/(yMax-yMin)+yPos+Height-(abs(yMin)/(yMax-yMin))*Height,
+                                          -OrientationxY[k]*(0.85*Height-20)/(yMax-yMin)+yPos+Height-(abs(yMin)/(yMax-yMin))*Height+yPos+20,
                                            x1[k+1]*(Width-70)/x1.length+xPos+50,
-                                           -OrientationxY[k+1]*(0.85*Height-20)/(yMax-yMin)+yPos+Height-(abs(yMin)/(yMax-yMin))*Height);
+                                           -OrientationxY[k+1]*(0.85*Height-20)/(yMax-yMin)+yPos+Height-(abs(yMin)/(yMax-yMin))*Height+yPos+20);
 
-      OrientationxY[k]=OrientationxY[k+1];
-      //y1[k] = 5;
-      //y1[0] = -k;
+
       }
       }
       
@@ -293,14 +234,11 @@
       strokeWeight(2);fill(255);
       
       line(x1[k]*(Width-70)/x1.length+xPos+50,
-                                          -OrientationyY[k]*(0.85*Height-20)/(yMax-yMin)+yPos+Height-(abs(yMin)/(yMax-yMin))*Height,
+                                          -OrientationyY[k]*(0.85*Height-20)/(yMax-yMin)+yPos+Height-(abs(yMin)/(yMax-yMin))*Height+yPos+20,
                                            x1[k+1]*(Width-70)/x1.length+xPos+50,
-                                           -OrientationyY[k+1]*(0.85*Height-20)/(yMax-yMin)+yPos+Height-(abs(yMin)/(yMax-yMin))*Height);
+                                           -OrientationyY[k+1]*(0.85*Height-20)/(yMax-yMin)+yPos+Height-(abs(yMin)/(yMax-yMin))*Height+yPos+20);
 
-      OrientationyY[k]=OrientationyY[k+1];
-      //y1[k] = 5;
-      //y1[0] = -k;
-                             
+            
       }}
       
       
@@ -313,14 +251,11 @@
       strokeWeight(2);fill(255);
       
       line(x1[k]*(Width-70)/x1.length+xPos+50,
-                                          -OrientationzY[k]*(0.85*Height-20)/(yMax-yMin)+yPos+Height-(abs(yMin)/(yMax-yMin))*Height,
+                                          -OrientationzY[k]*(0.85*Height-20)/(yMax-yMin)+yPos+Height-(abs(yMin)/(yMax-yMin))*Height+yPos+20,
                                            x1[k+1]*(Width-70)/x1.length+xPos+50,
-                                           -OrientationzY[k+1]*(0.85*Height-20)/(yMax-yMin)+yPos+Height-(abs(yMin)/(yMax-yMin))*Height);
+                                           -OrientationzY[k+1]*(0.85*Height-20)/(yMax-yMin)+yPos+Height-(abs(yMin)/(yMax-yMin))*Height+yPos+20);
 
-      OrientationzY[k]=OrientationzY[k+1];
-      //y1[k] = 5;
-      //y1[0] = -k;
-                             
+                   
       }
 
        

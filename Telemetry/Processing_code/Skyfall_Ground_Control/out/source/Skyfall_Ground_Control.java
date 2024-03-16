@@ -20,8 +20,6 @@ import java.io.IOException;
 
 public class Skyfall_Ground_Control extends PApplet {
 
-
-//test
 // import libraries
 
 
@@ -57,6 +55,9 @@ float angle = 0;
 PShape Skyfall;
 PFont font,font1;
 PGraphics canvas3D;
+Table table;
+PImage icon = loadImage("icon.png");
+
 
 
 int x = 100;
@@ -64,7 +65,7 @@ int y = 200;
 int SizeX = 1920;
 int SizeY = 1080;
 int scale = 10;
-int add = 100;
+int add = 0;
 int speed = 100;
 int millisecs;
 int seconds;
@@ -90,12 +91,12 @@ Graph OrientationX = new Graph(PApplet.parseInt(SizeX*0.1f),0, PApplet.parseInt(
 Graph OrientationY = new Graph(PApplet.parseInt(SizeX*0.3f),0, PApplet.parseInt(SizeX*0.2f), PApplet.parseInt(SizeY*0.24f), color (20, 20, 200));
 Graph OrientationZ = new Graph(PApplet.parseInt(SizeX*0.5f),0, PApplet.parseInt(SizeX*0.2f), PApplet.parseInt(SizeY*0.24f), color (20, 20, 200));
 
-float [] x1 = new float[100];
-float [] AltitudeY = new float [100];
-float [][] RotationY = new float [3][100];
-float [] OrientationxY = new float [100];
-float [] OrientationyY = new float [100];
-float [] OrientationzY = new float [100];
+float [] x1 = new float[1];
+float [] AltitudeY = new float [1];
+float [][] RotationY = new float [3][1];
+float [] OrientationxY = new float [1];
+float [] OrientationyY = new float [1];
+float [] OrientationzY = new float [1];
 
 float[] barChartValues = new float[6];
 float[][] AltitudeValues = new float[1][1000];
@@ -111,28 +112,32 @@ String code = "1402";
 public void settings() {
   size(SizeX, SizeY, P3D);//define the size of the window
 
-  }
+}
 
 public void setup() {
+  
+  
+  
   
   cp5 = new ControlP5(this);
   surface.setTitle("Skyfall Ground Control");//create the title of the window
   surface.setResizable(true);//define as non-resizable
   surface.setLocation(0,0);//define the loading location of the window
+  surface.setIcon(icon);
   background(0);
   font = createFont("CircularStd-Book.otf",30);
   font1 = createFont("CircularStd-Book.otf",15);
   
+  table = new Table();
   
+  table.addColumn("Time");
+  table.addColumn("Altitude");
+  table.addColumn("OrientationX");
+  table.addColumn("OrientationY");
+  table.addColumn("OrientationZ");
   
     
-  for (int i=0; i<x1.length; i++)
-      {
-        x1[i] = i;
-        AltitudeY[i] = 10;
-        //AltitudeY[i] = random(-10,10);
-        
-      }
+  
   
   // set line graph colors
   graphColors[0] = color(131, 255, 20);
@@ -181,11 +186,12 @@ public void setup() {
   Skyfall.scale(0.3f,0.3f,0.3f);
   Skyfall.rotateX(PI);
   countdown = new SoundFile(this, "countdown.MP3");
-  }
-
+}
 
 byte[] inBuffer = new byte[100]; // holds serial message
 int i = 0; // loop variable
+
+
 public void draw() {
   
     background(0);
@@ -201,19 +207,27 @@ public void draw() {
         myString = new String(inBuffer);
         }
       else {
-     AltitudeY[AltitudeY.length-1] = AltitudeY[AltitudeY.length-1]+random(-10,10);
+     //AltitudeY[AltitudeY.length-1] = AltitudeY[AltitudeY.length-1]+random(-10,10);
+     x1 = append(x1, add);
+     AltitudeY =append(AltitudeY, AltitudeY[AltitudeY.length-1]+random(-10,10));
     //for (int i = 0; i < RotationY.length; i++){
     for(int k=0; k<RotationY.length; k++){
-    RotationY[k][RotationY[k].length-1] = RotationY[k][RotationY[k].length-1]+random(-1,1);
+    RotationY[k] = append(RotationY[k],RotationY[k][RotationY[k].length-1]+random(-1,1));
     //printArray(RotationY[k]);
     }
-     //   }
+    
+      //  }
 
-    OrientationxY[OrientationxY.length-1] = OrientationxY[OrientationxY.length-1]+random(-1,1);
-    OrientationyY[OrientationyY.length-1] = OrientationyY[OrientationyY.length-1]+random(-1,1);
-    OrientationzY[OrientationyY.length-1] = OrientationzY[OrientationzY.length-1]+random(-1,1);
+    OrientationxY = append(OrientationxY, OrientationxY[OrientationxY.length-1]+random(-1,1));
+    OrientationyY = append(OrientationyY, OrientationyY[OrientationyY.length-1]+random(-1,1));
+    OrientationzY = append(OrientationzY, OrientationzY[OrientationzY.length-1]+random(-1,1));
         myString = mockupSerialFunction();
+        
+        add ++;
            }
+           
+           
+           
      if(altitudeMax < PApplet.parseInt(max(AltitudeY)))
      {altitudeMax = PApplet.parseInt(max(AltitudeY));
    }
@@ -423,133 +437,134 @@ public void draw() {
     }
 
    
-  }
+}
 // called each time the chart settings are changed by the user 
 public void setChartSettings() {
-    
+  
   if (PApplet.parseInt(max(AltitudeY))<0){
-            Altitude.yMin=PApplet.parseInt((min(AltitudeY))); 
-            Altitude.yMax=PApplet.parseInt(0);
-            }
-            else if (PApplet.parseInt(min(AltitudeY))>0){
-            Altitude.yMin= 0; 
-            Altitude.yMax=PApplet.parseInt((max(AltitudeY)));
-            }
-            else{
-            Altitude.yMin=PApplet.parseInt(1.5f*min(AltitudeY)); 
-            Altitude.yMax=PApplet.parseInt(1.5f*max(AltitudeY));
-            }
-            
-  if (PApplet.parseInt(max(OrientationxY))<0){
-            OrientationX.yMin=PApplet.parseInt((min(OrientationxY))); 
-            OrientationX.yMax=PApplet.parseInt(0);
-            }
-            else if (PApplet.parseInt(min(OrientationxY))>0){
-            OrientationX.yMin= 0; 
-            OrientationX.yMax=PApplet.parseInt((max(OrientationxY)));
-            }
-            else{
-            OrientationX.yMin=PApplet.parseInt(1.5f*min(OrientationxY)); 
-            OrientationX.yMax=PApplet.parseInt(1.5f*max(OrientationxY));
-            }
-            
-  if (PApplet.parseInt(max(OrientationyY))<0){
-            OrientationY.yMin=PApplet.parseInt((min(OrientationyY))); 
-            OrientationY.yMax=PApplet.parseInt(0);
-            }
-            else if (PApplet.parseInt(min(OrientationyY))>0){
-            OrientationY.yMin= 0; 
-            OrientationY.yMax=PApplet.parseInt((max(OrientationyY)));
-            }
-            else{
-            OrientationY.yMin=PApplet.parseInt(1.5f*min(OrientationyY)); 
-            OrientationY.yMax=PApplet.parseInt(1.5f*max(OrientationyY));
-            }
-            
-  if (PApplet.parseInt(max(OrientationzY))<0){
-            OrientationZ.yMin=PApplet.parseInt((min(OrientationzY))); 
-            OrientationZ.yMax=PApplet.parseInt(0);
-            }
-            else if (PApplet.parseInt(min(OrientationzY))>0){
-            OrientationZ.yMin= 0; 
-            OrientationZ.yMax=PApplet.parseInt((max(OrientationzY)));
-            }
-            else{
-            OrientationZ.yMin=PApplet.parseInt(1.5f*min(OrientationzY)); 
-            OrientationZ.yMax=PApplet.parseInt(1.5f*max(OrientationzY));
-            }
-    Altitude.xLabel=" Time ";
-    Altitude.yLabel="Altitude";
-    Altitude.Title="Altitude";  
-    Altitude.yDiv = 10;
-    Altitude.xDiv=6;  
-    Altitude.xMax=0; 
-    Altitude.xMin=-100; 
-    Altitude.xPos=0;
-    Altitude.yPos=PApplet.parseInt(height*0.33f);
-    Altitude.Width=PApplet.parseInt(width*0.25f);
-    Altitude.Height=PApplet.parseInt(height*0.33f);
-    //Altitude.yMin=int(min(AltitudeY)); 
-    //Altitude.yMax=int(max(AltitudeY)); 
+           Altitude.yMin=PApplet.parseInt((min(AltitudeY))); 
+           Altitude.yMax=PApplet.parseInt(0);
+          }
+          else if (PApplet.parseInt(min(AltitudeY))>0){
+           Altitude.yMin= 0; 
+           Altitude.yMax=PApplet.parseInt((max(AltitudeY)));
+          }
+          else{
+          Altitude.yMin=PApplet.parseInt(1.5f*min(AltitudeY)); 
+           Altitude.yMax=PApplet.parseInt(1.5f*max(AltitudeY));
+          }
+          
+ if (PApplet.parseInt(max(OrientationxY))<0){
+           OrientationX.yMin=PApplet.parseInt((min(OrientationxY))); 
+           OrientationX.yMax=PApplet.parseInt(0);
+          }
+          else if (PApplet.parseInt(min(OrientationxY))>0){
+           OrientationX.yMin= 0; 
+           OrientationX.yMax=PApplet.parseInt((max(OrientationxY)));
+          }
+          else{
+          OrientationX.yMin=PApplet.parseInt(1.5f*min(OrientationxY)); 
+           OrientationX.yMax=PApplet.parseInt(1.5f*max(OrientationxY));
+          }
+          
+if (PApplet.parseInt(max(OrientationyY))<0){
+           OrientationY.yMin=PApplet.parseInt((min(OrientationyY))); 
+           OrientationY.yMax=PApplet.parseInt(0);
+          }
+          else if (PApplet.parseInt(min(OrientationyY))>0){
+           OrientationY.yMin= 0; 
+           OrientationY.yMax=PApplet.parseInt((max(OrientationyY)));
+          }
+          else{
+          OrientationY.yMin=PApplet.parseInt(1.5f*min(OrientationyY)); 
+           OrientationY.yMax=PApplet.parseInt(1.5f*max(OrientationyY));
+          }
+          
+if (PApplet.parseInt(max(OrientationzY))<0){
+           OrientationZ.yMin=PApplet.parseInt((min(OrientationzY))); 
+           OrientationZ.yMax=PApplet.parseInt(0);
+          }
+          else if (PApplet.parseInt(min(OrientationzY))>0){
+           OrientationZ.yMin= 0; 
+           OrientationZ.yMax=PApplet.parseInt((max(OrientationzY)));
+          }
+          else{
+          OrientationZ.yMin=PApplet.parseInt(1.5f*min(OrientationzY)); 
+           OrientationZ.yMax=PApplet.parseInt(1.5f*max(OrientationzY));
+          }
+  Altitude.xLabel=" Time ";
+  Altitude.yLabel="Altitude";
+  Altitude.Title="Altitude";  
+  Altitude.yDiv = 10;
+  Altitude.xDiv=6;  
+  Altitude.xMax=0; 
+  Altitude.xMin=-100; 
+  Altitude.xPos=0;
+  Altitude.yPos=PApplet.parseInt(height*0.33f);
+  Altitude.Width=PApplet.parseInt(width*0.25f);
+  Altitude.Height=PApplet.parseInt(height*0.33f);
+  //Altitude.yMin=int(min(AltitudeY)); 
+  //Altitude.yMax=int(max(AltitudeY)); 
 
-    //Altitude.yMin = -1000;
-    //Altitude.yMax = 1000;
-    
-    //Altitude.yMin=int(min(AltitudeY));
-    
-    
-    Rotation.xLabel=" Time ";
-    Rotation.yLabel="Rotation";
-    Rotation.Title="Rotation";  
-    Rotation.yDiv = 10;
-    Rotation.xDiv=6;  
-    Rotation.xMax=0; 
-    Rotation.yMax=100;
-    Rotation.yMin=-100;
-    Rotation.xMin=-100; 
-    Rotation.xPos=0;
-    Rotation.yPos=PApplet.parseInt(height*0.66f);
-    Rotation.Width=PApplet.parseInt(width*0.25f);
-    Rotation.Height=PApplet.parseInt(height*0.33f);
+  //Altitude.yMin = -1000;
+  //Altitude.yMax = 1000;
+  
+  //Altitude.yMin=int(min(AltitudeY));
+  
+  
+  Rotation.xLabel=" Time ";
+  Rotation.yLabel="Rotation";
+  Rotation.Title="Rotation";  
+  Rotation.yDiv = 10;
+  Rotation.xDiv=6;  
+  Rotation.xMax=0; 
+  Rotation.yMax=100;
+  Rotation.yMin=-100;
+  Rotation.xMin=-100; 
+  Rotation.xPos=0;
+  Rotation.yPos=PApplet.parseInt(height*0.66f);
+  Rotation.Width=PApplet.parseInt(width*0.25f);
+  Rotation.Height=PApplet.parseInt(height*0.33f);
 
-    OrientationX.yLabel="Orientation X";
-    OrientationX.Title="Orientation";  
-    OrientationX.yDiv = 10;
-    OrientationX.xDiv=6;  
-    OrientationX.xMax=100; 
-    OrientationX.xMin=0; 
-    OrientationX.xPos=PApplet.parseInt(width*0.125f);
-    OrientationX.yPos=0;
-    OrientationX.Width=PApplet.parseInt(width*0.22f);
-    OrientationX.Height=PApplet.parseInt(height*0.33f);
-
-    
-    OrientationY.yLabel="Orientation Y";
-    OrientationY.Title="Orientation";  
-    OrientationY.yDiv = 10;
-    OrientationY.xDiv=6;  
-    OrientationY.xMax=0; 
-    OrientationY.xMin=-100; 
-    OrientationY.xPos=PApplet.parseInt(width*0.345f);
-    OrientationY.yPos=0;
-    OrientationY.Width=PApplet.parseInt(width*0.22f);
-    OrientationY.Height=PApplet.parseInt(height*0.33f);
-
-    
-    OrientationZ.yLabel="Orientation Y";
-    OrientationZ.Title="Orientation";  
-    OrientationZ.yDiv = 10;
-    OrientationZ.xDiv=6;  
-    OrientationZ.xMax=0; 
-    OrientationZ.xMin=-100; 
-    OrientationZ.xPos=PApplet.parseInt(width*0.565f);
-    OrientationZ.yPos=0;
-    OrientationZ.Width=PApplet.parseInt(width*0.22f);
-    OrientationZ.Height=PApplet.parseInt(height*0.33f);
+  OrientationX.yLabel="Orientation X";
+  OrientationX.Title="Orientation";  
+  OrientationX.yDiv = 10;
+  OrientationX.xDiv=6;  
+  OrientationX.xMax=100; 
+  OrientationX.xMin=0; 
+  OrientationX.xPos=PApplet.parseInt(width*0.125f);
+  OrientationX.yPos=0;
+  OrientationX.Width=PApplet.parseInt(width*0.22f);
+  OrientationX.Height=PApplet.parseInt(height*0.33f);
 
   
+  OrientationY.yLabel="Orientation Y";
+  OrientationY.Title="Orientation";  
+  OrientationY.yDiv = 10;
+  OrientationY.xDiv=6;  
+  OrientationY.xMax=0; 
+  OrientationY.xMin=-100; 
+  OrientationY.xPos=PApplet.parseInt(width*0.345f);
+  OrientationY.yPos=0;
+  OrientationY.Width=PApplet.parseInt(width*0.22f);
+  OrientationY.Height=PApplet.parseInt(height*0.33f);
 
-  }
+  
+  OrientationZ.yLabel="Orientation Y";
+  OrientationZ.Title="Orientation";  
+  OrientationZ.yDiv = 10;
+  OrientationZ.xDiv=6;  
+  OrientationZ.xMax=0; 
+  OrientationZ.xMin=-100; 
+  OrientationZ.xPos=PApplet.parseInt(width*0.565f);
+  OrientationZ.yPos=0;
+  OrientationZ.Width=PApplet.parseInt(width*0.22f);
+  OrientationZ.Height=PApplet.parseInt(height*0.33f);
+
+ 
+
+}
+
 // handle gui actions
 public void controlEvent(ControlEvent theEvent) {
   if (theEvent.isAssignableFrom(Textfield.class) || theEvent.isAssignableFrom(Toggle.class) || theEvent.isAssignableFrom(Button.class)) {
@@ -564,7 +579,7 @@ public void controlEvent(ControlEvent theEvent) {
     saveJSONObject(plotterConfigJSON, topSketchPath+"/plotter_config.json");
   }
   setChartSettings();
-  }
+}
 
 // get gui settings from settings file
 public String getPlotterConfigString(String id) {
@@ -576,7 +591,8 @@ public String getPlotterConfigString(String id) {
     r = "";
   }
   return r;
-  }
+}
+
 public void Launch(){
     println("clicked");
     
@@ -588,20 +604,21 @@ public void Launch(){
       launchButton.setLabel("Launch").setColorBackground(color(179,192,164)).setColorForeground(color(209,222,194));
       }
       else{
-         securityCode = cp5.addTextfield("Security Code")
-        .setPosition(0.785f*width,0.43f*height)
-        .setSize(PApplet.parseInt(0.15f*width),PApplet.parseInt(0.05f*height))
-        //.setColorBackground( color( 255,255,255 ) )
-        .setFont(font1);
-        //.setLabel("");
-        Pray = cp5.addButton("Pray")
-        .setPosition(0.935f*width,0.43f*height)
-        .setSize(PApplet.parseInt(0.065f*width-5),PApplet.parseInt(0.05f*height))
-        .setColorBackground( color( 80,81,104 ) )
-        .setFont(font1);
-        launchButton.setLabel("Cancel").setColorBackground(color(220,196,142)).setColorForeground(color(250,226,172));
-        clicked=true;
-           }
+       securityCode = cp5.addTextfield("Security Code")
+      .setPosition(0.785f*width,0.43f*height)
+      .setSize(PApplet.parseInt(0.15f*width),PApplet.parseInt(0.05f*height))
+      //.setColorBackground( color( 255,255,255 ) )
+      .setFont(font1);
+      //.setLabel("");
+     Pray = cp5.addButton("Pray")
+      .setPosition(0.935f*width,0.43f*height)
+      .setSize(PApplet.parseInt(0.065f*width-5),PApplet.parseInt(0.05f*height))
+      .setColorBackground( color( 80,81,104 ) )
+      .setFont(font1);
+      launchButton.setLabel("Cancel").setColorBackground(color(220,196,142)).setColorForeground(color(250,226,172));
+      clicked=true;
+      
+      }
     }
     
 public void Pray(){
@@ -797,37 +814,18 @@ public String getConfigString(String id) {
   }
   return r;
 }
-
-     
-class data 
-{
-     int     xPos,yPos;        // location of the top left corner of the graph  
-     int     Width,Height;
-     int   BackgroundColor=color(255);
-  
-    data(int x, int y, int w, int h){
-      
-      xPos = x;
-      yPos = y;
-      Width = w;
-      Height = h;
-      
-    }
-    public void rawData(){
-        fill(0); color(0);stroke(0);strokeWeight(0);
-        fill(0);
-        rectMode(CENTER);
-        rect(xPos+Width/2,yPos+Height/2,Width,Height,10);    
-        fill(BackgroundColor); color(255);stroke(255);strokeWeight(1);
-        fill(35);
-        rectMode(CENTER);
-        rect(xPos+Width/2,yPos+Height/2,Width-10,Height-10,10);            // outline
-        textAlign(CENTER);textSize(14);
-      
-
-    }
- 
-  
+public void addRowsToTable(Table table, int numRows, float[] x1,
+                                                        float[] AltitudeY,float[] RotationxY,
+                                                        float[] RotationyY, float[] RotationzY) 
+  {
+  for (int i = 0; i < x1.length; i++) {
+    TableRow newRow = table.addRow();
+    newRow.setFloat("Time", x1[i]);
+    newRow.setFloat("Altitde", AltitudeY[i]);
+    newRow.setFloat("RotationX", RotationxY[i]);
+    newRow.setFloat("RotationY", RotationyY[i]);
+    newRow.setFloat("RotationZ", RotationzY[i]);
+  }
 }
   
 /*   =================================================================================       
@@ -1034,14 +1032,14 @@ class data
           
         //yPos+Height-(abs(yMin)/(yMax-yMin))*Height
         for (int k = 0; k<x1.length-1; k++){
-      strokeWeight(2);fill(255);
+          strokeWeight(2);fill(255);
       
-      line(x1[k]*(Width-70)/x1.length+xPos+50,
+          line(x1[k]*(Width-70)/x1.length+xPos+50,
                                           -AltitudeY[k]*(0.85f*Height-20)/(yMax-yMin)+yPos+Height-(abs(yMin)/(yMax-yMin))*Height,
                                            x1[k+1]*(Width-70)/x1.length+xPos+50,
                                            -AltitudeY[k+1]*(0.85f*Height-20)/(yMax-yMin)+yPos+Height-(abs(yMin)/(yMax-yMin))*Height);
 
-      AltitudeY[k]=AltitudeY[k+1];
+          //AltitudeY[k]=AltitudeY[k+1];
       //AltitudeY[k] = 5;
       //AltitudeY[0] = -k;
       
@@ -1199,7 +1197,7 @@ public String mockupSerialFunction() {
     if (i < 7)
       r += '\r';
   }
-  delay(10);
+  delay(100);
   return r;
 }
    /*  =========================================================================================
